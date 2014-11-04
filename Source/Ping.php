@@ -24,7 +24,7 @@ class Ping {
   private $host;
   private $ttl;
   private $data = 'Ping';
-  private $port;
+  private $port=80;
 
   /**
    * Called when the Ping object is created.
@@ -48,7 +48,7 @@ class Ping {
    *    port on the host to be pinged
    *    this can be used with Fsocopen as second parameter is $port
    *    it is helpful to ping other services on the host like Mysql
-   *    e.g. 80 = http default
+   *    e.g. 80 = http (default)
    *         3306= mysql;
    *    you can also define your own port which is used by your customized application
    * @return (empty)
