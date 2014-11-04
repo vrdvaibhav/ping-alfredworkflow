@@ -24,6 +24,7 @@ class Ping {
   private $host;
   private $ttl;
   private $data = 'Ping';
+  private $port;
 
   /**
    * Called when the Ping object is created.
@@ -43,7 +44,13 @@ class Ping {
    *   The TTL is also used as a general 'timeout' value for fsockopen(), so if
    *   you are using that method, you might want to set a default of 5-10 sec to
    *   avoid blocking network connections.
-   *
+   *  @param $port (int)
+   *    port on the host to be pinged
+   *    this can be used with Fsocopen as second parameter is $port
+   *    it is helpful to ping other services on the host like Mysql
+   *    e.g. 80 = http default
+   *         3306= mysql;
+   *    you can also define your own port which is used by your customized application
    * @return (empty)
    */
   public function __construct($host, $ttl = 255) {
@@ -79,6 +86,21 @@ class Ping {
     $this->host = $host;
   }
 
+
+/**
+   * Set the port.
+   *
+   * @param $port (int)
+   *   port used 
+   *
+   * @return (empty)
+   */
+   
+public function setPort($port) {
+    $this->port = $port;
+  }
+  
+  
   /**
    * Ping a host.
    *
@@ -142,7 +164,7 @@ class Ping {
       // Even if a host doesn't respond, fsockopen may still make a connection.
       case 'fsockopen':
         $start = microtime(true);
-        $fp = fsockopen($this->host, 80, $errno, $errstr, $this->ttl);
+        $fp = fsockopen($this->host, $this->port, $errno, $errstr, $this->ttl);
         if (!$fp) {
           $latency = false;
         }
